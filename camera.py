@@ -19,7 +19,7 @@ front = glm.normalize(glm.vec3(
 
 
 def updateFront():
-    global pitch, yaw, front
+    global front
     front = glm.normalize(glm.vec3(
         math.cos(glm.radians(pitch)) * math.cos(glm.radians(yaw)),
         math.sin(glm.radians(pitch)),
@@ -28,12 +28,10 @@ def updateFront():
 
 
 def get_view_matrix():
-    global position, front, up
     return glm.lookAt(position, position + front, up)
 
 
 def get_projection_matrix():
-    global fov, width, height
     return glm.perspective(glm.radians(fov), width / height, 0.1, 100.0)
 
 

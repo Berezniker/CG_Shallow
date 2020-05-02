@@ -9,32 +9,45 @@ lastFrame: float = 0.0
 lastX = None
 lastY = None
 
+addRandomDrop: bool = False
+rainActive: bool = False
+rainSpeed: int = 100
+dropCoord = None
+
 stopScene: bool = False
-waterDrop: bool = False
 skeleton: bool = False
+skybox: bool = False
 
 
-def reset_time():
+def reset_time() -> None:
     global lastFrame, deltaTime
     currentFrame = glfw.get_time()
     deltaTime = currentFrame - lastFrame
     lastFrame = currentFrame
 
 
-def isSceneStopped() -> bool:
-    return stopScene
+def rainSetting(key, action):
+    global addRandomDrop, rainActive, rainSpeed
+    if key == glfw.KEY_E and action == glfw.PRESS and not stopScene:
+        addRandomDrop = True
+        print("AddRandomDrop")
 
+    if key == glfw.KEY_R and action == glfw.PRESS and not stopScene:
+        rainActive = not rainActive
+        rainSpeed = 100
+        print(f"RainMode <{'ON' if rainActive else 'OFF'}>")
 
-def isSkeleton() -> bool:
-    return skeleton
+    if key == glfw.KEY_UP and action == glfw.PRESS and rainActive:
+        rainSpeed = max(rainSpeed - 10, 1)
+        print(f"rainSpeed = once per {rainSpeed} frames")
 
-
-def addRandomDrop() -> bool:
-    return waterDrop
+    if key == glfw.KEY_DOWN and action == glfw.PRESS and rainActive:
+        rainSpeed = min(rainSpeed + 10, 200)
+        print(f"rainSpeed = once per {rainSpeed} frames")
 
 
 def key_callback(window, key, scancode, action, mode):
-    global stopScene, skeleton, waterDrop
+    global stopScene, skeleton, skybox
     # NOTE! You need to run with the ENGLISH layout, not otherwise
     if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
         glfw.set_window_should_close(window, GL_TRUE)
@@ -55,9 +68,11 @@ def key_callback(window, key, scancode, action, mode):
         skeleton = not skeleton
         print(f"WaterPolygonMode <{'ON' if skeleton else 'OFF'}>")
 
-    if key == glfw.KEY_R and action == glfw.PRESS and not stopScene:
-        waterDrop = True
-        print("AddRandomDrop")
+    rainSetting(key, action)
+
+    if key == glfw.KEY_B and action == glfw.PRESS:
+        skybox = not skybox
+        print(f"CubemapMode <{'ON' if skybox else 'OFF'}>")
 
     # DEBUG
     # print(f"position={camera.position}")
@@ -104,9 +119,20 @@ def camera_control(window):
                            * cameraSpeed
 
 
+def counter(func):
+    def wrap(*args, **kwargs):
+        wrap.count += 1
+        return func(*args, **kwargs)
+    wrap.count = 0
+    return wrap
+
+
+@counter
 def poll_events(window):
-    global waterDrop
-    waterDrop = False
+    global addRandomDrop
+    addRandomDrop = poll_events.count <= 5
+    if rainActive:
+        addRandomDrop = not (poll_events.count % rainSpeed)
     reset_time()
     camera_control(window)
     glfw.poll_events()

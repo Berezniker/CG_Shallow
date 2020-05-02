@@ -18,7 +18,7 @@ def create_texture(texturePath: str):
 
     tex = Image.open(texturePath, mode='r')
     img_data = np.array(list(tex.getdata()), np.uint8)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex.width, tex.height, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, tex.width, tex.height, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, img_data)
     glGenerateMipmap(GL_TEXTURE_2D)
     glBindTexture(GL_TEXTURE_2D, 0)  # Unbind texture

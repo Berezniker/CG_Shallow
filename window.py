@@ -38,6 +38,9 @@ class Window:
         glfw.set_cursor_pos_callback(self.window, call.mouse_callback)
         glfw.set_scroll_callback(self.window, call.scroll_callback)
         glfw.set_key_callback(self.window, call.key_callback)
+
+    def set_cursor(self):
+        # glfw.create_cursor() ?
         glfw.set_input_mode(self.window, glfw.CURSOR, glfw.CURSOR_DISABLED)
 
     def isOpen(self) -> bool:

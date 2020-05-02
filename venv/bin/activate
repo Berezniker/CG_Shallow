@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/tim4ous/PycharmProjects/shallow_water/venv"
+VIRTUAL_ENV="/home/alexey/Desktop/mashgraph/Shallow/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

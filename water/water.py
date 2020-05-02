@@ -1,8 +1,8 @@
 from OpenGL.GL import *
 from shader import Shader
+import water.texture as tex
 import callbacks as call
 import camera as camera
-import texture as tex
 import utils as utils
 import numpy as np
 import inspect
@@ -52,7 +52,7 @@ class Water:
         # Uniform location:
         self.MVPLoc = self.drawShader.getUniformLocation("MVP")
         self.modelLoc = self.drawShader.getUniformLocation("model")
-        self.lightPosLoc = self.drawShader.getUniformLocation("lightPos")
+        self.cameraPosLoc = self.drawShader.getUniformLocation("cameraPos")
         self.TrInvModelLoc = self.drawShader.getUniformLocation("TrInvModel")
         # Set model position:
         self.model = glm.mat4(1.0)
@@ -100,7 +100,7 @@ class Water:
         # :--- [callback] ---:
         self.updateShader.use()
         # Uniform
-        glUniform1i(self.updateShader.getUniformLocation("dropWater"), call.addRandomDrop())
+        glUniform1i(self.updateShader.getUniformLocation("dropWater"), call.addRandomDrop)
         glUniform2f(self.updateShader.getUniformLocation("center"), *np.random.random(size=2))
         glUniform1f(self.updateShader.getUniformLocation("step"), 1.0 / self.nextTex.size)
         self.prevTex.bind()
@@ -118,12 +118,12 @@ class Water:
         self.prevTex, self.currTex, self.nextTex = \
             self.currTex, self.nextTex, self.prevTex
 
-    def draw(self, lightPos):
-        if not call.isSceneStopped():
+    def draw(self, cameraPos, skybox):
+        if not call.stopScene:
             self.updateWater()
 
         # Options:
-        if call.isSkeleton():
+        if call.skeleton:
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -136,16 +136,20 @@ class Water:
         glUniformMatrix4fv(self.MVPLoc, 1, GL_FALSE, glm.value_ptr(mvp))
         glUniformMatrix4fv(self.modelLoc, 1, GL_FALSE, glm.value_ptr(self.model))
         glUniformMatrix3fv(self.TrInvModelLoc, 1, GL_FALSE, glm.value_ptr(self.TrInvModel))
-        glUniform3f(self.lightPosLoc, lightPos.x, lightPos.y, lightPos.z)
+        glUniform3f(self.cameraPosLoc, cameraPos.x, cameraPos.y, cameraPos.z)
         self.currTex.bind()
         glUniform1i(self.drawShader.getUniformLocation("heightMap"), self.currTex.id)
         glUniform1f(self.drawShader.getUniformLocation("step"), 1.0 / self.currTex.size)
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_CUBE_MAP, skybox)
 
         self._draw()
 
         self.currTex.unbind()
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_CUBE_MAP, 0)
         glDisable(GL_BLEND)
-        if call.isSkeleton():
+        if call.skeleton:
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 
     def _draw(self):

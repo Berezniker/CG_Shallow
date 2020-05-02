@@ -1,12 +1,15 @@
 from OpenGL.GL import *
 
+from cubemap.cubemap import Cubemap
 from sphere.sphere import Sphere
 from water.water import Water
-from light.light import Light
 from pool.pool import Pool
 from window import Window
-import camera as camera
 import callbacks as call
+import camera
+import glm
+
+LIGHT_POSITION = glm.vec3(-3.0, 3.0, 3.0)
 
 
 def main():
@@ -14,11 +17,12 @@ def main():
                     height=camera.height,
                     title='Shallow')
     window.set_callbacks()
+    window.set_cursor()
 
     pool = Pool()
-    light = Light()
     water = Water()
     sphere = Sphere()
+    cubemap = Cubemap()
 
     # Options:
     glViewport(0, 0, camera.width, camera.height)
@@ -38,14 +42,16 @@ def main():
         glClearColor(0.0, 0.0, 0.0, 1.0)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         # --- Draw ---
-        light.draw()
-        pool.draw(light.position)
-        sphere.draw(light.position)
-        water.draw(light.position)
+        pool.draw(LIGHT_POSITION)
+        sphere.draw(LIGHT_POSITION)
+        water.draw(camera.position,
+                   cubemap.id)
+        if call.skybox:
+            cubemap.draw()
         # ------------
         window.update()
 
-    del pool, light, water, sphere, window
+    del window, pool, sphere, water
 
 
 if __name__ == "__main__":

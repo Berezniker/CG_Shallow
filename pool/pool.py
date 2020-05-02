@@ -2,7 +2,7 @@ from OpenGL.GL import *
 from shader import Shader
 import camera as camera
 import mesh.mesh as mesh
-import utils as utils
+import utils
 import glm
 
 
@@ -69,6 +69,7 @@ class Pool:
         # Draw
         glBindVertexArray(self.VAO)
         glDrawArrays(GL_TRIANGLES, 0, mesh.cube.size)
+
         glBindVertexArray(0)  # Unbind VAO
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, 0)

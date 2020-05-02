@@ -6,11 +6,11 @@ import numpy as np
 import math
 import glm
 
-# http://www.songho.ca/opengl/gl_sphere.html
+# based on http://www.songho.ca/opengl/gl_sphere.html
 
 
-N_SECTOR = 25
-N_STACK = 25
+N_SECTOR = 20
+N_STACK = 20
 
 
 # latitude and longitude ~ sector and stacks
@@ -70,10 +70,8 @@ class Sphere:
         self.texture = utils.create_texture(texturePath="./sphere/golf.jpg")
 
         vertices, textures, normals = create_sphere(N_STACK, N_SECTOR)
-        self.elements = sphere_triangulation(N_STACK, N_SECTOR)
-        # self.vertices.size = (N_STACK + 1) * (N_SECTOR + 1) * 3
-
         self.vertices = np.dstack((vertices, textures, normals))
+        self.elements = sphere_triangulation(N_STACK, N_SECTOR)
 
         # Vertex Array Objects (VAO)
         self.VAO = glGenVertexArrays(1)
