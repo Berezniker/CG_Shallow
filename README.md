@@ -1,6 +1,6 @@
 # Shallow Water
 
-inspired by [Evan](http://madebyevan.com/webgl-water/) ([git](https://github.com/evanw/webgl-water))
+inspired by [Evan](http://madebyevan.com/webgl-water/) ([git](https://github.com/evanw/webgl-water))  
 guide: [learnopengl.com](learnopengl.com) ([russian translation](https://habr.com/ru/post/310790/))
 
 ### Load:
