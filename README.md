@@ -9,13 +9,17 @@ $ git clone https://github.com/Berezniker/CG_Shallow.git
 $ cd CG_Shallow
 ```
 
-### Creation of virtual environment:
+### Activation of virtual environment:
 ```sh
 $ source venv/bin/activate
 ```
 or you can install the libraries yourself:
 ```sh
 $ pip3 install --upgrade -r requirements.txt
+```
+deactivate virtual environment:
+```sh
+$ deactivate
 ```
 
 ### Run:
