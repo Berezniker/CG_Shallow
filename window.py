@@ -15,8 +15,9 @@ class Window:
         glfw.window_hint(glfw.SAMPLES, 4)
         glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
-        glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, True)  # for Mac OS X
+        glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, glfw.TRUE)  # for Mac OS X
         glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
+        glfw.window_hint(glfw.CENTER_CURSOR, glfw.TRUE)
 
         self.window = glfw.create_window(
             width=width,
@@ -50,4 +51,5 @@ class Window:
         glfw.swap_buffers(self.window)
 
     def __del__(self):
+        glfw.destroy_window(self.window)
         glfw.terminate()

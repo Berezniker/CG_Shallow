@@ -9,8 +9,8 @@ import glm
 # based on http://www.songho.ca/opengl/gl_sphere.html
 
 
-N_SECTOR = 20
-N_STACK = 20
+N_SECTOR = 25
+N_STACK = 25
 
 
 # latitude and longitude ~ sector and stacks
@@ -67,7 +67,7 @@ class Sphere:
                              fragmentShaderPath="./sphere/fragment.glsl",
                              shaderName="SphereShader")
 
-        self.texture = utils.create_texture(texturePath="./sphere/golf.jpg")
+        self.texture = utils.create_texture(texturePath="./sphere/moon.jpg")
 
         vertices, textures, normals = create_sphere(N_STACK, N_SECTOR)
         self.vertices = np.dstack((vertices, textures, normals))

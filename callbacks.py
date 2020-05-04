@@ -10,8 +10,11 @@ lastX = None
 lastY = None
 
 addRandomDrop: bool = False
-rainActive: bool = False
+rainActive: bool = True
 rainSpeed: int = 100
+maxRainSpeed: int = 10
+minRainSpeed: int = 200
+stepRainSpeed: int = 10
 dropCoord = None
 
 stopScene: bool = False
@@ -38,12 +41,18 @@ def rainSetting(key, action):
         print(f"RainMode <{'ON' if rainActive else 'OFF'}>")
 
     if key == glfw.KEY_UP and action == glfw.PRESS and rainActive:
-        rainSpeed = max(rainSpeed - 10, 1)
-        print(f"rainSpeed = once per {rainSpeed} frames")
+        rainSpeed = max(rainSpeed - stepRainSpeed, maxRainSpeed)
+        if rainSpeed == maxRainSpeed:
+            print("rainSpeed = MAX")
+        else:
+            print(f"rainSpeed = once per {rainSpeed} frames")
 
     if key == glfw.KEY_DOWN and action == glfw.PRESS and rainActive:
-        rainSpeed = min(rainSpeed + 10, 200)
-        print(f"rainSpeed = once per {rainSpeed} frames")
+        rainSpeed = min(rainSpeed + stepRainSpeed, minRainSpeed)
+        if rainSpeed == minRainSpeed:
+            print("rainSpeed = MIN")
+        else:
+            print(f"rainSpeed = once per {rainSpeed} frames")
 
 
 def key_callback(window, key, scancode, action, mode):
@@ -130,7 +139,7 @@ def counter(func):
 @counter
 def poll_events(window):
     global addRandomDrop
-    addRandomDrop = poll_events.count <= 5
+    addRandomDrop = False
     if rainActive:
         addRandomDrop = not (poll_events.count % rainSpeed)
     reset_time()

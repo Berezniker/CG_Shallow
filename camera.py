@@ -1,8 +1,8 @@
 import math
 import glm
 
-width: int = 800
-height: int = 600
+width: int = 1280
+height: int = 720
 
 position = glm.vec3(-0.4, 0.9, 2.2)
 up = glm.vec3(0.0, 1.0, 0.0)
