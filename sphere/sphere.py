@@ -140,6 +140,11 @@ class Sphere:
         glBindTexture(GL_TEXTURE_2D, 0)
 
     def __del__(self):
-        glDeleteVertexArrays(1, [self.VAO])
-        glDeleteBuffers(2, [self.VBO, self.EBO])
-        del self.shader
+        if hasattr(self, 'VAO'):
+            glDeleteVertexArrays(1, [self.VAO])
+        if hasattr(self, 'VBO'):
+            glDeleteBuffers(1, [self.VBO])
+        if hasattr(self, 'EBO'):
+            glDeleteBuffers(1, [self.EBO])
+        if hasattr(self, 'shader'):
+            del self.shader

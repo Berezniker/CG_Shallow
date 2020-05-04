@@ -131,6 +131,9 @@ class Cubemap:
         # glDepthMask(GL_TRUE)
 
     def __del__(self):
-        glDeleteVertexArrays(1, [self.VAO])
-        glDeleteBuffers(1, [self.VBO])
-        del self.shader
+        if hasattr(self, 'VAO'):
+            glDeleteVertexArrays(1, [self.VAO])
+        if hasattr(self, 'VBO'):
+            glDeleteBuffers(1, [self.VBO])
+        if hasattr(self, 'shader'):
+            del self.shader

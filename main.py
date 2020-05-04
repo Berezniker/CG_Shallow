@@ -51,7 +51,7 @@ def main():
         # ------------
         window.update()
 
-    del window, pool, sphere, water
+    del window, pool, water, sphere, cubemap
 
 
 if __name__ == "__main__":

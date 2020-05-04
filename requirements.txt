@@ -1,5 +1,5 @@
-glfw
 numpy
 Pillow
-PyGLM
 PyOpenGL
+PyGLM
+glfw

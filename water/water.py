@@ -158,7 +158,19 @@ class Water:
         glBindVertexArray(0)  # Unbind VAO
 
     def __del__(self):
-        glDeleteVertexArrays(1, [self.VAO])
-        glDeleteBuffers(2, [self.VBO, self.EBO])
-        del self.prevTex, self.currTex, self.nextTex
-        del self.drawShader, self.updateShader
+        if hasattr(self, 'VAO'):
+            glDeleteVertexArrays(1, [self.VAO])
+        if hasattr(self, 'VBO'):
+            glDeleteBuffers(1, [self.VBO])
+        if hasattr(self, 'EBO'):
+            glDeleteBuffers(1, [self.EBO])
+        if hasattr(self, 'prevTex'):
+            del self.prevTex
+        if hasattr(self, 'currTex'):
+            del self.currTex
+        if hasattr(self, 'nextTex'):
+            del self.nextTex
+        if hasattr(self, 'drawShader'):
+            del self.drawShader
+        if hasattr(self, 'updateShader'):
+            del self.updateShader

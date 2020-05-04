@@ -71,4 +71,5 @@ class Shader:
         return self.name
 
     def __del__(self):
-        glDeleteProgram(self.program)
+        if hasattr(self, 'program'):
+            glDeleteProgram(self.program)

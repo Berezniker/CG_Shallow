@@ -17,8 +17,8 @@ void main() {
     gl_Position = MVP * vec4(position.x, h, position.z, 1.0);
     vFragPos = vec3(model * vec4(position.x, h, position.z, 1.0));
 
-    vec3 dx = vec3(step, texture2D(heightMap, vec2(coord.x + step, coord.y)).y - h, 0.0);
-    vec3 dz = vec3(0.0, texture2D(heightMap, vec2(coord.x, coord.y + step)).y - h, step);
+    vec3 dx = vec3(step, texture(heightMap, vec2(coord.x + step, coord.y)).y - h, 0.0);
+    vec3 dz = vec3(0.0, texture(heightMap, vec2(coord.x, coord.y + step)).y - h, step);
     vNormal = normalize(cross(dz, dx));
     vNormal = TrInvModel * vNormal;
     vNormal = normalize(vNormal);

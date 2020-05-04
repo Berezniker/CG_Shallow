@@ -50,4 +50,5 @@ class Texture:
         glViewport(0, 0, self.size, self.size)
 
     def __del__(self):
-        glDeleteFramebuffers(1, [self.FBO])
+        if hasattr(self, 'EBO'):
+            glDeleteBuffers(1, [self.EBO])

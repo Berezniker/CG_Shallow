@@ -17,12 +17,12 @@ void main() {
     vec2 dx = vec2(step, 0.0);
     vec2 dy = vec2(0.0, step);
 
-    float average = (texture2D(currTexture, coord + dy).y +
-                     texture2D(currTexture, coord - dy).y +
-                     texture2D(currTexture, coord + dx).y +
-                     texture2D(currTexture, coord - dx).y  ) * 0.25;
+    float average = (texture(currTexture, coord + dy).y +
+                     texture(currTexture, coord - dy).y +
+                     texture(currTexture, coord + dx).y +
+                     texture(currTexture, coord - dx).y  ) * 0.25;
 
-    float prev = texture2D(prevTexture, coord).y;
+    float prev = texture(prevTexture, coord).y;
     float h = (1.0 - w) * prev + w * average;
 
     if (dropWater) {
