@@ -1,7 +1,9 @@
 # Shallow Water
 
 inspired by [Evan](http://madebyevan.com/webgl-water/) ([git](https://github.com/evanw/webgl-water))  
-guide: [learnopengl.com](learnopengl.com) ([russian translation](https://habr.com/ru/post/310790/))
+guide: [learnopengl.com](learnopengl.com) ([RU](https://habr.com/ru/post/310790/))
+
+<img src="https://github.com/Berezniker/CG_Shallow/blob/master/pool.png">
 
 ### Load:
 ```sh
